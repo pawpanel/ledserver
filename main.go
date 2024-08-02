@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/pawplace/ledserver/config"
+	"github.com/pawplace/ledserver/leds"
 	"github.com/pawplace/ledserver/server"
 	"github.com/urfave/cli/v2"
 	"gopkg.in/yaml.v3"
@@ -35,8 +36,14 @@ func main() {
 				return err
 			}
 
+			// Initialize the LEDs
+			l, err := leds.New(&cfg.Leds)
+			if err != nil {
+				return err
+			}
+
 			// Create the server
-			s := server.New(&cfg.Server)
+			s := server.New(&cfg.Server, l)
 			defer s.Close()
 
 			// Wait for SIGINT or SIGTERM

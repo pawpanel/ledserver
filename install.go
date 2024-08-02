@@ -25,6 +25,9 @@ WantedBy=default.target
 	configDefaultFileName = "/etc/pawplace/ledserver.yaml"
 	configFile            = `# TODO: use this file to configure the application
 
+leds:
+  count: 48
+  pin: 18
 server:
   addr: 127.0.0.1:16123
 `

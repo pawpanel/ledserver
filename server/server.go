@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pawplace/ledserver/leds"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
@@ -14,6 +15,7 @@ import (
 type Server struct {
 	server http.Server
 	logger zerolog.Logger
+	leds   *leds.Leds
 }
 
 func init() {
@@ -22,7 +24,7 @@ func init() {
 }
 
 // New creates a new server instance.
-func New(cfg *Config) *Server {
+func New(cfg *Config, l *leds.Leds) *Server {
 
 	// Initialize the server
 	var (
@@ -33,6 +35,7 @@ func New(cfg *Config) *Server {
 				Handler: r,
 			},
 			logger: log.With().Str("package", "server").Logger(),
+			leds:   l,
 		}
 	)
 
