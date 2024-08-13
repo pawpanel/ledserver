@@ -16,10 +16,10 @@ func NewSolidEffect(c color.Color) Effect {
 	}
 }
 
-func (p *solidEffect) Render(
+func (s *solidEffect) Render(
 	elapsed time.Duration,
 	region Region,
 ) (time.Duration, bool) {
-	region.SetAllPixels(p.color)
+	region.SetAllPixels(s.color)
 	return 0, false
 }
