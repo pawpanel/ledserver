@@ -2,14 +2,20 @@ package leds
 
 import (
 	"image/color"
+	"time"
 
 	"github.com/SimonWaldherr/ws2812/pixarray"
+	"github.com/pawplace/ledserver/leds/effects"
 )
 
 type ledRegion struct {
 	ledstrip pixarray.LEDStrip
-	name     string
+	title    string
 	pixelMap []int
+	start    time.Time
+	next     time.Time
+	done     bool
+	effect   effects.Effect
 }
 
 func colorToPixel(c color.Color) pixarray.Pixel {
@@ -36,9 +42,9 @@ func (r *ledRegion) SetPixel(i int, c color.Color) {
 
 func (r *ledRegion) SetAllPixels(c color.Color) {
 	pixelColor := colorToPixel(c)
-	for i, _ := range r.pixelMap {
+	for _, v := range r.pixelMap {
 		r.ledstrip.SetPixel(
-			r.pixelMap[i],
+			v,
 			pixelColor,
 		)
 	}
