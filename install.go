@@ -26,8 +26,14 @@ WantedBy=default.target
 	configFile            = `# TODO: use this file to configure the application
 
 leds:
-  count: 48
   pin: 18
+  count: 48
+  regions:
+    - name: all
+      title: All
+      blocks:
+        - offset: 0
+          count: 48
 server:
   addr: 127.0.0.1:16123
 `
