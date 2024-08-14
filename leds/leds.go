@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/SimonWaldherr/ws2812/pixarray"
+	"github.com/Jon-Bright/ledctl/pixarray"
 	"github.com/pawplace/ledserver/leds/effects"
 	"github.com/rs/zerolog"
 )
