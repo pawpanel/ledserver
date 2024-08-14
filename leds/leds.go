@@ -34,7 +34,7 @@ func (l *Leds) run() {
 
 		// Loop through all regions that do not have complete effects
 		for _, r := range l.regionMap {
-			if r.done {
+			if r.effect == nil || r.done {
 				continue
 			}
 			if r.next.Before(now) {
