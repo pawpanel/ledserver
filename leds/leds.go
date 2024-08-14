@@ -64,8 +64,8 @@ func (l *Leds) run() {
 		// Wait for either a command or the next interval
 		select {
 		case <-timerChan:
-		case cmd, closed := <-l.cmdReqChan:
-			if closed {
+		case cmd, ok := <-l.cmdReqChan:
+			if !ok {
 				return
 			}
 			l.cmdErrChan <- func() error {
