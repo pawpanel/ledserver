@@ -57,4 +57,5 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 	if err := s.leds.Execute(regionName, effect); err != nil {
 		panic(err)
 	}
+	c.Status(http.StatusNoContent)
 }
