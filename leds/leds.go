@@ -18,6 +18,7 @@ type ledRequest struct {
 type Leds struct {
 	frameInterval time.Duration
 	regionMap     map[string]*ledRegion
+	ledstrip      pixarray.LEDStrip
 	logger        zerolog.Logger
 	cmdReqChan    chan *ledRequest
 	cmdErrChan    chan error
@@ -28,8 +29,9 @@ func (l *Leds) run() {
 	defer close(l.closedChan)
 	for {
 		var (
-			now        = time.Now()
-			nextRender time.Time
+			now         = time.Now()
+			nextRender  time.Time
+			oneRendered bool
 		)
 
 		// Loop through all regions that do not have complete effects
@@ -38,6 +40,7 @@ func (l *Leds) run() {
 				continue
 			}
 			if r.next.Before(now) {
+				oneRendered = true
 				next, cont := r.effect.Render(
 					now.Sub(r.start),
 					r,
@@ -52,6 +55,13 @@ func (l *Leds) run() {
 				}
 			} else if nextRender.IsZero() || r.next.Before(nextRender) {
 				nextRender = r.next
+			}
+		}
+
+		// Apply (if there was a change)
+		if oneRendered {
+			if err := l.ledstrip.Write(); err != nil {
+				l.logger.Error().Msg(err.Error())
 			}
 		}
 
@@ -135,6 +145,7 @@ func New(cfg *Config) (*Leds, error) {
 	l := &Leds{
 		frameInterval: time.Second / refreshRate,
 		regionMap:     regionMap,
+		ledstrip:      ledstrip,
 		cmdReqChan:    make(chan *ledRequest),
 		cmdErrChan:    make(chan error),
 		closedChan:    make(chan any),
