@@ -30,10 +30,10 @@ func (p *pulseEffect) Render(
 	x /= 2
 	x += 0.5
 	r, g, b, _ := p.color.RGBA()
-	region.SetAllPixels(&color.RGBA64{
-		R: uint16(float64(r) * x),
-		G: uint16(float64(g) * x),
-		B: uint16(float64(b) * x),
+	region.SetAllPixels(&color.RGBA{
+		R: uint8(float64(r) * x * 256),
+		G: uint8(float64(g) * x * 256),
+		B: uint8(float64(b) * x * 256),
 	})
 	return 0, true
 }

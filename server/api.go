@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"image/color"
 	"net/http"
 	"time"
@@ -53,6 +54,8 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 			parseColor(v.Color),
 			v.Period,
 		)
+	default:
+		panic(fmt.Sprintf("invalid effect \"%s\"", effectName))
 	}
 	if err := s.leds.Execute(regionName, effect); err != nil {
 		panic(err)
