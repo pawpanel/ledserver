@@ -1,11 +1,60 @@
 package server
 
 import (
+	"image/color"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/icza/gox/imagex/colorx"
+	"github.com/pawplace/ledserver/leds/effects"
 )
 
-func (s *Server) api_get_regions(c *gin.Context) {
+func parseColor(v string) color.Color {
+	c, err := colorx.ParseHexColor(v)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
+func (s *Server) apiGetRegions(c *gin.Context) {
 	c.JSON(http.StatusOK, s.leds.Regions())
+}
+
+type apiPostRegionsSolidParams struct {
+	Color string `json:"color"`
+}
+
+type apiPostRegionsPulseParams struct {
+	Color  string        `json:"color"`
+	Period time.Duration `json:"period"`
+}
+
+func (s *Server) apiPostRegions(c *gin.Context) {
+	var (
+		regionName = c.Param("name")
+		effectName = c.Param("effect")
+		effect     effects.Effect
+	)
+	switch effectName {
+	case "solid":
+		v := &apiPostRegionsSolidParams{}
+		if err := c.ShouldBindJSON(v); err != nil {
+			panic(err)
+		}
+		effect = effects.NewSolidEffect(parseColor(v.Color))
+	case "pulse":
+		v := &apiPostRegionsPulseParams{}
+		if err := c.ShouldBindJSON(v); err != nil {
+			panic(err)
+		}
+		effect = effects.NewPulseEffect(
+			parseColor(v.Color),
+			v.Period,
+		)
+	}
+	if err := s.leds.Execute(regionName, effect); err != nil {
+		panic(err)
+	}
 }

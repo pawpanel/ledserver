@@ -5,8 +5,9 @@ go 1.18
 require (
 	github.com/SimonWaldherr/ws2812 v0.0.0-20220119175731-aaf70e8930d1
 	github.com/gin-gonic/gin v1.10.0
+	github.com/icza/gox v0.0.0-20230924165045-adcb03233bb5
 	github.com/rs/zerolog v1.33.0
-	github.com/urfave/cli/v2 v2.27.3
+	github.com/urfave/cli/v2 v2.27.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 

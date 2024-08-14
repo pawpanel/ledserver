@@ -39,6 +39,17 @@ func New(cfg *Config, l *leds.Leds) *Server {
 		}
 	)
 
+	groupApi := r.Group("/api")
+	{
+		// Use custom middleware for the API
+		groupApi.Use(
+			gin.CustomRecoveryWithWriter(nil, panicToJSONError),
+		)
+
+		groupApi.GET("/regions", s.apiGetRegions)
+		groupApi.POST("/regions/:name/:effect", s.apiPostRegions)
+	}
+
 	// Listen for connections in a separate goroutine
 	go func() {
 		defer s.logger.Info().Msg("server stopped")
