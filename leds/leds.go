@@ -29,9 +29,9 @@ func (l *Leds) run() {
 	defer close(l.closedChan)
 	for {
 		var (
-			now         = time.Now()
-			nextRender  time.Time
-			oneRendered bool
+			now        = time.Now()
+			nextRender time.Time
+			dirty      bool
 		)
 
 		// Loop through all regions that do not have complete effects
@@ -40,7 +40,7 @@ func (l *Leds) run() {
 				continue
 			}
 			if r.next.Before(now) {
-				oneRendered = true
+				dirty = true
 				next, cont := r.effect.Render(
 					now.Sub(r.start),
 					r,
@@ -59,7 +59,7 @@ func (l *Leds) run() {
 		}
 
 		// Apply (if there was a change)
-		if oneRendered {
+		if dirty {
 			if err := l.ledstrip.Write(); err != nil {
 				l.logger.Error().Msg(err.Error())
 			}
@@ -85,6 +85,7 @@ func (l *Leds) run() {
 				}
 				r.start = now
 				r.effect = cmd.effect
+				r.done = false
 				return nil
 			}()
 		}
