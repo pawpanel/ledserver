@@ -28,8 +28,8 @@ type apiPostRegionsSolidParams struct {
 }
 
 type apiPostRegionsPulseParams struct {
-	Color  string        `json:"color"`
-	Period time.Duration `json:"period"`
+	Color  string         `json:"color"`
+	Period stringDuration `json:"period"`
 }
 
 func (s *Server) apiPostRegions(c *gin.Context) {
@@ -52,7 +52,7 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		}
 		effect = effects.NewPulseEffect(
 			parseColor(v.Color),
-			v.Period,
+			time.Duration(v.Period),
 		)
 	default:
 		panic(fmt.Sprintf("invalid effect \"%s\"", effectName))
