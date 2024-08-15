@@ -52,8 +52,10 @@ func (l *Leds) run() {
 					r.next = now.Add(next)
 				} else {
 					r.done = true
+					continue
 				}
-			} else if nextRender.IsZero() || r.next.Before(nextRender) {
+			}
+			if nextRender.IsZero() || r.next.Before(nextRender) {
 				nextRender = r.next
 			}
 		}
