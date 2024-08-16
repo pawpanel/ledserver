@@ -24,11 +24,15 @@ func (r *rainbowEffect) Render(
 	region Region,
 ) (time.Duration, bool) {
 	for i := 0; i < region.Count(); i++ {
-		o := float64(i)
+		o := math.Mod(
+			float64(i)/float64(r.width)+
+				float64(elapsed)/float64(r.period),
+			1,
+		)
 		c, _ := colorconv.HSVToColor(
 			math.Mod(o*360, 360),
-			100,
-			100,
+			1,
+			1,
 		)
 		region.SetPixel(i, c)
 	}
