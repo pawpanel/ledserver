@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/crazy3lf/colorconv"
 	"github.com/gin-gonic/gin"
-	"github.com/icza/gox/imagex/colorx"
 	"github.com/pawplace/ledserver/leds/effects"
 )
 
 func parseColor(v string) color.Color {
-	c, err := colorx.ParseHexColor(v)
+	c, err := colorconv.HexToColor(v)
 	if err != nil {
 		panic(err)
 	}

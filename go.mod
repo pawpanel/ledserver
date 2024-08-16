@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/Jon-Bright/ledctl v0.0.0-20220811175751-98f2a0ba0a4b
+	github.com/crazy3lf/colorconv v1.2.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/icza/gox v0.0.0-20230924165045-adcb03233bb5
 	github.com/rs/zerolog v1.33.0
 	github.com/urfave/cli/v2 v2.27.4
 	gopkg.in/yaml.v3 v3.0.1
