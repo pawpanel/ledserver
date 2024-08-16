@@ -32,6 +32,11 @@ type apiPostRegionsPulseParams struct {
 	Period stringDuration `json:"period"`
 }
 
+type apiPostRegionsRainbowParams struct {
+	Width  int            `json:"width"`
+	Period stringDuration `json:"period"`
+}
+
 func (s *Server) apiPostRegions(c *gin.Context) {
 	var (
 		regionName = c.Param("name")
@@ -52,6 +57,15 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		}
 		effect = effects.NewPulseEffect(
 			parseColor(v.Color),
+			time.Duration(v.Period),
+		)
+	case "rainbow":
+		v := &apiPostRegionsRainbowParams{}
+		if err := c.ShouldBindJSON(v); err != nil {
+			panic(err)
+		}
+		effect = effects.NewRainbowEffect(
+			v.Width,
 			time.Duration(v.Period),
 		)
 	default:
