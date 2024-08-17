@@ -85,6 +85,12 @@ func (l *Leds) run() {
 				if !ok {
 					return errors.New("invalid region")
 				}
+				v, ok := cmd.effect.(effects.EffectInit)
+				if ok {
+					if err := v.Init(r); err != nil {
+						return err
+					}
+				}
 				r.start = now
 				r.effect = cmd.effect
 				r.done = false

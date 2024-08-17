@@ -24,3 +24,11 @@ type Effect interface {
 	// complete (no further change).
 	Render(time.Duration, Region) (time.Duration, bool)
 }
+
+type EffectInit interface {
+
+	// Init provides the effect a chance to initialize itself. This provides
+	// the opportunity to validate input data and return an error if there is
+	// an issue.
+	Init(Region) error
+}
