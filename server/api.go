@@ -37,6 +37,8 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		effect = &effects.RainbowEffect{}
 	case "solid":
 		effect = &effects.SolidEffect{}
+	case "transition":
+		effect = &effects.TransitionEffect{}
 	default:
 		panic(fmt.Sprintf("invalid effect \"%s\"", effectName))
 	}
