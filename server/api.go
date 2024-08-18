@@ -29,6 +29,8 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		effect     effects.Effect
 	)
 	switch effectName {
+	case "chase":
+		effect = &effects.ChaseEffect{}
 	case "pulse":
 		effect = &effects.PulseEffect{}
 	case "rainbow":
