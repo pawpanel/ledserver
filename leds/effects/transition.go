@@ -18,7 +18,7 @@ func (t *TransitionEffect) Init(region Region) error {
 	if t.Duration == 0 {
 		return errors.New("duration cannot be 0")
 	}
-	rS, bS, gS, _ := t.FromColor.RGBA()
+	rS, gS, bS, _ := t.FromColor.RGBA()
 	rE, gE, bE, _ := t.ToColor.RGBA()
 	t.rS, t.gS, t.bS = uint16(rS), uint16(gS), uint16(bS)
 	t.rD = uint16(rE) - t.rS
