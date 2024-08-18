@@ -11,7 +11,7 @@ type TransitionEffect struct {
 	ToColor    Color    `json:"to_color"`
 	Duration   Duration `json:"duration"`
 	rS, gS, bS uint16
-	rD, gD, bD uint16
+	rD, gD, bD int
 }
 
 func (t *TransitionEffect) Init(region Region) error {
@@ -21,9 +21,9 @@ func (t *TransitionEffect) Init(region Region) error {
 	rS, gS, bS, _ := t.FromColor.RGBA()
 	rE, gE, bE, _ := t.ToColor.RGBA()
 	t.rS, t.gS, t.bS = uint16(rS), uint16(gS), uint16(bS)
-	t.rD = uint16(rE) - t.rS
-	t.gD = uint16(gE) - t.gS
-	t.bD = uint16(bE) - t.bS
+	t.rD = int(rE) - int(t.rS)
+	t.gD = int(gE) - int(t.gS)
+	t.bD = int(bE) - int(t.bS)
 	return nil
 }
 
@@ -39,9 +39,9 @@ func (t *TransitionEffect) Render(
 		f = 1
 	}
 	region.SetAllPixels(color.RGBA64{
-		R: t.rS + uint16(f*float64(t.rD)),
-		G: t.gS + uint16(f*float64(t.gD)),
-		B: t.bS + uint16(f*float64(t.bD)),
+		R: uint16(float64(t.rS) + f*float64(t.rD)),
+		G: uint16(float64(t.gS) + f*float64(t.gD)),
+		B: uint16(float64(t.bS) + f*float64(t.bD)),
 	})
 	return 0, cont
 }
