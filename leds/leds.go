@@ -91,7 +91,7 @@ func (l *Leds) run() {
 						return err
 					}
 				}
-				r.start = now
+				r.start = time.Now()
 				r.effect = cmd.effect
 				r.done = false
 				return nil
