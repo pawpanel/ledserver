@@ -9,8 +9,8 @@ import (
 )
 
 type RainbowEffect struct {
-	Width  int           `json:"width"`
-	Period time.Duration `json:"period"`
+	Width  int      `json:"width"`
+	Period Duration `json:"period"`
 }
 
 func (r *RainbowEffect) Init(region Region) error {
