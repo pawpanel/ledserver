@@ -32,7 +32,7 @@ func (t *TransitionEffect) Render(
 	region Region,
 ) (time.Duration, bool) {
 	var (
-		f    = float64(elapsed / time.Duration(t.Duration))
+		f    = float64(elapsed) / float64(t.Duration)
 		cont = f < 1
 	)
 	if !cont {
