@@ -1,25 +1,17 @@
 package effects
 
 import (
-	"image/color"
 	"time"
 )
 
-type solidEffect struct {
-	color color.Color
+type SolidEffect struct {
+	Color Color `json:"color"`
 }
 
-// Create a new
-func NewSolidEffect(c color.Color) Effect {
-	return &solidEffect{
-		color: c,
-	}
-}
-
-func (s *solidEffect) Render(
+func (s *SolidEffect) Render(
 	elapsed time.Duration,
 	region Region,
 ) (time.Duration, bool) {
-	region.SetAllPixels(s.color)
+	region.SetAllPixels(s.Color)
 	return 0, false
 }

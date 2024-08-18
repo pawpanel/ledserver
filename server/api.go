@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image/color"
 	"net/http"
-	"time"
 
 	"github.com/crazy3lf/colorconv"
 	"github.com/gin-gonic/gin"
@@ -23,20 +22,6 @@ func (s *Server) apiGetRegions(c *gin.Context) {
 	c.JSON(http.StatusOK, s.leds.Regions())
 }
 
-type apiPostRegionsSolidParams struct {
-	Color string `json:"color"`
-}
-
-type apiPostRegionsPulseParams struct {
-	Color  string         `json:"color"`
-	Period stringDuration `json:"period"`
-}
-
-type apiPostRegionsRainbowParams struct {
-	Width  int            `json:"width"`
-	Period stringDuration `json:"period"`
-}
-
 func (s *Server) apiPostRegions(c *gin.Context) {
 	var (
 		regionName = c.Param("name")
@@ -44,32 +29,17 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		effect     effects.Effect
 	)
 	switch effectName {
-	case "solid":
-		v := &apiPostRegionsSolidParams{}
-		if err := c.ShouldBindJSON(v); err != nil {
-			panic(err)
-		}
-		effect = effects.NewSolidEffect(parseColor(v.Color))
 	case "pulse":
-		v := &apiPostRegionsPulseParams{}
-		if err := c.ShouldBindJSON(v); err != nil {
-			panic(err)
-		}
-		effect = effects.NewPulseEffect(
-			parseColor(v.Color),
-			time.Duration(v.Period),
-		)
+		effect = &effects.PulseEffect{}
 	case "rainbow":
-		v := &apiPostRegionsRainbowParams{}
-		if err := c.ShouldBindJSON(v); err != nil {
-			panic(err)
-		}
-		effect = effects.NewRainbowEffect(
-			v.Width,
-			time.Duration(v.Period),
-		)
+		effect = &effects.RainbowEffect{}
+	case "solid":
+		effect = &effects.SolidEffect{}
 	default:
 		panic(fmt.Sprintf("invalid effect \"%s\"", effectName))
+	}
+	if err := c.ShouldBindJSON(effect); err != nil {
+		panic(err)
 	}
 	if err := s.leds.Execute(regionName, effect); err != nil {
 		panic(err)
