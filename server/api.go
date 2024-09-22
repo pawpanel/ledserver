@@ -37,6 +37,8 @@ func (s *Server) apiPostRegions(c *gin.Context) {
 		effect = &effects.RainbowEffect{}
 	case "solid":
 		effect = &effects.SolidEffect{}
+	case "stripes":
+		effect = &effects.StripesEffect{}
 	case "transition":
 		effect = &effects.TransitionEffect{}
 	default:
