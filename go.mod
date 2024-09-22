@@ -1,6 +1,6 @@
 module github.com/pawplace/ledserver
 
-go 1.21
+go 1.18
 
 require (
 	github.com/Jon-Bright/ledctl v0.0.0-20220811175751-98f2a0ba0a4b

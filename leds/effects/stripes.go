@@ -65,8 +65,8 @@ func (s *StripesEffect) Render(
 			aR, aG, aB, _ = s.Colors[aOffset].RGBA()
 			cR, cG, cB, _ = s.Colors[oInt].RGBA()
 			e             = f*float64(2) - float64(1)
-			bFactor       = s.Blur * oneThird * math.Abs(min(e, 0))
-			aFactor       = s.Blur * oneThird * max(e, 0)
+			bFactor       = s.Blur * oneThird * math.Abs(math.Min(e, 0))
+			aFactor       = s.Blur * oneThird * math.Max(e, 0)
 			cFactor       = 1 - bFactor - aFactor
 		)
 		region.SetPixel(i, color.RGBA64{
