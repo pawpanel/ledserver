@@ -22,7 +22,7 @@ ExecStart={{.self_path}} --config {{.config_path}}
 WantedBy=default.target
 `
 
-	configDefaultFileName = "/etc/pawplace/ledserver.yaml"
+	configDefaultFileName = "/etc/pawpanel/ledserver.yaml"
 	configFile            = `# TODO: use this file to configure the application
 
 leds:
